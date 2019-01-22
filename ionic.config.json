@@ -1,5 +1,7 @@
 {
   "name": "intra",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
