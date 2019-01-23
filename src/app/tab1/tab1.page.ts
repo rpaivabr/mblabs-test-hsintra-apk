@@ -14,7 +14,7 @@ export class Tab1Page implements OnInit {
   encodedData: any = {};
   scannedData: any = {};
   today: Date = new Date();
-  ingresso: any = {};
+  ingresso: any = undefined;
 
   constructor(public scanner: BarcodeScanner,
               public firestore: FirestoreService) { }

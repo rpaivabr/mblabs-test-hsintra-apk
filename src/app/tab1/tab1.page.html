@@ -1,19 +1,56 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>
-      Tab One
+      <strong>HS</strong>Intra
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <!-- <ion-fab vertical="top" horizontal="end" slot="fixed" *ngIf="!ingresso">
     <ion-fab-button>
       <ion-icon name="qr-scanner" (click)="scan()"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
+  </ion-fab> -->
+  <ion-card *ngIf="!ingresso">
+    <ion-card-content>
+      Validar ingresso
+      <ion-button color="secondary" (click)="scan()" float-right><ion-icon name="qr-scanner"></ion-icon></ion-button>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="ingresso">
+    <ion-card-content>
+      <ion-row>
+        <ion-col size="10">
+          Nome do Evento: {{ ingresso?.evento.titulo }}<br>
+          Data: {{ ingresso?.evento.data }}
+        </ion-col>
+        <ion-col size="2">
+          <qrcode [qrdata]="'ingresso.uid'" [size]="128" [level]="'M'" colordark="#120a8f" style="width: 100%"></qrcode>
+        </ion-col>
+      </ion-row>
 
-  <ion-card class="welcome-card">
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <img src="assets/img/M.png">
+        </ion-avatar>
+        <ion-label>
+          Nome: {{ ingresso?.usuario.nome }}<br>
+          Data Nasc.: {{ ingresso?.usuario.datanasc }}
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="ingresso">
+      <ion-card-content>
+        Confirma presença?
+        <ion-button style="--background:green;" float-right><ion-icon name="checkmark"></ion-icon></ion-button>
+        <ion-button style="--background:red;" float-right><ion-icon name="close"></ion-icon></ion-button>
+      </ion-card-content>
+    </ion-card>
+
+  <!-- <ion-card class="welcome-card">
     <ion-img src="/assets/shapes.svg"></ion-img>
     <ion-card-header>
       <ion-card-subtitle>Get Started</ion-card-subtitle>
@@ -43,5 +80,5 @@
       <ion-icon slot="start" color="medium" name="color-fill"></ion-icon>
       <ion-label>Theme Your App</ion-label>
     </ion-item>
-  </ion-list>
+  </ion-list> -->
 </ion-content>
