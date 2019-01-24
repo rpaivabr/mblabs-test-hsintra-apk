@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
 import { FirestoreService } from '../services/firestore.service';
 import { AlertController } from '@ionic/angular';
+import { Ticket } from '../models/ticket';
+import { Event } from '../models/event';
 
 @Component({
   selector: 'app-tab1',
@@ -12,8 +14,8 @@ export class Tab1Page implements OnInit {
 
   options: BarcodeScannerOptions;
   today: Date = new Date();
-  ticket: any = undefined;
-  event: any;
+  ticket: Ticket;
+  event: Event;
 
   constructor(public scanner: BarcodeScanner,
               public firestore: FirestoreService,
@@ -21,7 +23,6 @@ export class Tab1Page implements OnInit {
 
   ngOnInit() {
     this.firestore.getEventsByDate().subscribe(events => {
-      console.log(events);
       this.event = events.filter(event => event.data.toDate().toDateString() === this.today.toDateString())[0];
     });
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FirestoreService } from '../services/firestore.service';
 import { Router } from '@angular/router';
+import { Event } from '../models/event';
 
 @Component({
   selector: 'app-tab2',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class Tab2Page implements OnInit {
 
-  events = [];
+  events: Event[] = [];
   today = new Date();
 
   constructor(private firestore: FirestoreService,

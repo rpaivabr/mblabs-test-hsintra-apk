@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestoreDocument, AngularFirestore } from 'angularfire2/firestore';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Event } from '../models/event';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -27,13 +29,13 @@ export class FirestoreService {
       );
   }
 
-  getEventsByDate(): Observable<any[]> {
+  getEventsByDate(): Observable<Event[]> {
     this.collection = this.db.collection('eventos', ref => ref.orderBy('data'));
     return this.collection
       .snapshotChanges().pipe(
         map(changes => {
           return changes.map(a => {
-            const data = a.payload.doc.data() as any;
+            const data = a.payload.doc.data() as Event;
             const uid = a.payload.doc.id;
             return { uid, ...data };
           });
@@ -81,7 +83,7 @@ export class FirestoreService {
     );
   }
 
-  getByAuthUid(uid: string): Observable<any> {
+  getByAuthUid(uid: string): Observable<User> {
     return this.getAll('usuarios').pipe(
       map(objs => {
         return objs.filter(obj => (obj.authUid === uid))[0];
@@ -89,7 +91,7 @@ export class FirestoreService {
     );
   }
 
-  getByAdmin(uid: string): Observable<any> {
+  getByAdmin(uid: string): Observable<User> {
     return this.getAll('usuarios').pipe(
       map(objs => {
         return objs.filter(obj => (obj.authUid === uid && obj.perfil === 'admin'))[0];
