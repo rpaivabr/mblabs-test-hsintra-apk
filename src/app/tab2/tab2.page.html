@@ -1,9 +1,28 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Tab Two
+      <strong>HS</strong>Intra <span style="font-size: 0.9rem;">Meus eventos</span>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+
+
+  <ion-card *ngFor="let event of events">
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <img src="assets/img/event.png" style="transform: scale(1.5);">
+        </ion-avatar>
+        <span [class.today]="checkToday(event.data)" (click)="goCredential(event.data)">
+        Data: {{ event.data.seconds * 1000 | date : 'dd/MM/yyyy HH:mm' }}<br>
+        Titulo: {{ event.nome }}<br>
+        Local: {{ event.local }}
+        </span>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  
+
+</ion-content>

@@ -1,84 +1,64 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>
-      <strong>HS</strong>Intra
+      <strong>HS</strong>Intra <span style="font-size: 0.9rem;">Credenciamento</span>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- <ion-fab vertical="top" horizontal="end" slot="fixed" *ngIf="!ingresso">
-    <ion-fab-button>
-      <ion-icon name="qr-scanner" (click)="scan()"></ion-icon>
-    </ion-fab-button>
-  </ion-fab> -->
-  <ion-card *ngIf="!ingresso">
+  <ion-card no-margin>
     <ion-card-content>
-      Validar ingresso
-      <ion-button color="secondary" (click)="scan()" float-right><ion-icon name="qr-scanner"></ion-icon></ion-button>
+        <ion-item lines="none">
+            <ion-avatar slot="start">
+              <img src="assets/img/event.png" style="transform: scale(1.5);">
+            </ion-avatar>
+            <span class="today" (click)="goCredential(event.data)">
+            Data: {{ event.data.seconds * 1000 | date : 'dd/MM/yyyy HH:mm' }}<br>
+            Titulo: {{ event.nome }}<br>
+            Local: {{ event.local }}
+            </span>
+          </ion-item>
     </ion-card-content>
   </ion-card>
-  <ion-card *ngIf="ingresso">
+
+  <!-- antes de ler ingresso -->
+  <ion-card *ngIf="!ticket">
     <ion-card-content>
       <ion-row>
         <ion-col size="10">
-          Nome do Evento: {{ ingresso?.evento.titulo }}<br>
-          Data: {{ ingresso?.evento.data }}
+          Validar ingresso
         </ion-col>
         <ion-col size="2">
-          <qrcode [qrdata]="'ingresso.uid'" [size]="128" [level]="'M'" colordark="#120a8f" style="width: 100%"></qrcode>
+          <ion-button color="secondary" (click)="scan()" float-right margin-bottom>
+            <ion-icon name="qr-scanner"></ion-icon>
+          </ion-button>
         </ion-col>
       </ion-row>
-
-      <ion-item lines="none">
-        <ion-avatar slot="start">
-          <img src="assets/img/M.png">
-        </ion-avatar>
-        <ion-label>
-          Nome: {{ ingresso?.usuario.nome }}<br>
-          Data Nasc.: {{ ingresso?.usuario.datanasc }}
-        </ion-label>
-      </ion-item>
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="ingresso">
-      <ion-card-content>
-        Confirma presença?
-        <ion-button style="--background:green;" float-right><ion-icon name="checkmark"></ion-icon></ion-button>
-        <ion-button style="--background:red;" float-right><ion-icon name="close"></ion-icon></ion-button>
-      </ion-card-content>
-    </ion-card>
-
-  <!-- <ion-card class="welcome-card">
-    <ion-img src="/assets/shapes.svg"></ion-img>
-    <ion-card-header>
-      <ion-card-subtitle>Get Started</ion-card-subtitle>
-      <ion-card-title>Welcome to Ionic</ion-card-title>
-    </ion-card-header>
+  <!-- depois de ler ingresso -->
+  <ion-card *ngIf="ticket">
     <ion-card-content>
-      <p>{{ingresso | json}}</p>
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="assets/img/{{ticket?.participante.sexo}}.png" style="transform: scale(1.5);">
+        </ion-avatar>
+        {{ ticket?.participante.nome }}<br>
+        DN: {{ ticket?.participante.datanasc.seconds * 1000 | date : 'dd/MM/yyyy' }}<br>
+        CPF: {{ ticket?.participante.cpf }}<br>
+        Sexo: {{ ticket?.participante.sexo === 'M' ? 'Masculino' : 'Feminino'}}
+      </ion-item>
+      <hr>
+      Confirma presença?
+      <ion-button style="--background:green;" float-right margin-bottom (click)="useTicket()">
+        <ion-icon name="checkmark"></ion-icon>
+      </ion-button>
+      <ion-button style="--background:red;" float-right margin-bottom (click)="cancelTicket()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
     </ion-card-content>
   </ion-card>
-  <ion-list lines="none">
-    <ion-list-header>
-      <ion-label>Resources</ion-label>
-    </ion-list-header>
-    <ion-item href="https://beta.ionicframework.com/docs/">
-      <ion-icon slot="start" color="medium" name="book"></ion-icon>
-      <ion-label>Ionic Documentation</ion-label>
-    </ion-item>
-    <ion-item href="https://beta.ionicframework.com/docs/building/scaffolding">
-      <ion-icon slot="start" color="medium" name="build"></ion-icon>
-      <ion-label>Scaffold Out Your App</ion-label>
-    </ion-item>
-    <ion-item href="https://beta.ionicframework.com/docs/layout/structure">
-      <ion-icon slot="start" color="medium" name="grid"></ion-icon>
-      <ion-label>Change Your App Layout</ion-label>
-    </ion-item>
-    <ion-item href="https://beta.ionicframework.com/docs/theming/basics">
-      <ion-icon slot="start" color="medium" name="color-fill"></ion-icon>
-      <ion-label>Theme Your App</ion-label>
-    </ion-item>
-  </ion-list> -->
+
 </ion-content>

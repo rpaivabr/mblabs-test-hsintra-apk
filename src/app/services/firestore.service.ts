@@ -27,6 +27,20 @@ export class FirestoreService {
       );
   }
 
+  getEventsByDate(): Observable<any[]> {
+    this.collection = this.db.collection('eventos', ref => ref.orderBy('data'));
+    return this.collection
+      .snapshotChanges().pipe(
+        map(changes => {
+          return changes.map(a => {
+            const data = a.payload.doc.data() as any;
+            const uid = a.payload.doc.id;
+            return { uid, ...data };
+          });
+        })
+      );
+  }
+
   getTasksByData(data: string, path: string): Observable<any[]> {
     return this.getAll(path).pipe(
       map(objs => {
