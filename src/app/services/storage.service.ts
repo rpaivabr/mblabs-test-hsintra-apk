@@ -12,7 +12,7 @@ export class StorageService {
 
     constructor(private storage: AngularFireStorage) { }
 
-    uploadFile(file, objId, path): Observable<string> {
+    uploadFile(file, objId, path: string): Observable<string> {
         this.imageRef = this.storage.ref(`${path}/${objId}`);
         return from(this.storage.upload(`${path}/${objId}`, file)).pipe(
             switchMap(() => {
